@@ -20,6 +20,16 @@ app.get('/api/toy',(req,res)=>{
         )
 
 })
+app.get('/api/toy/:toyId',(req,res)=>{
+    const {toyId}=req.params
+    toyService.getById(toyId).then(
+        toy=>res.send(toy)
+    ).catch(err=>{
+        loggerService.error('Cannot get toy',err)
+        res.status(400).send(err)
+    })
+})
+
 
 
 const port = process.env.PORT || 3030
