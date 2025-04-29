@@ -1,6 +1,7 @@
 
 import fs from 'fs'
 import { utilService } from "./util.service.js"
+import { log } from 'console';
 
 const toys = utilService.readJsonFile('data/toy.json')
 const labels = [
@@ -65,7 +66,7 @@ function remove(toyId) {
 function save(toy) {
     if (toy._id) {
         const idx = toys.findIndex(currToy => toy._id === currToy._id)
-        toys[idx] = { ...toys[idx], toy }
+        toys[idx] = { ...toys[idx], ...toy }
     } else {
         toy._id = _makeId()
         toy.createdAt = Date.now()

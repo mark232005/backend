@@ -4,42 +4,57 @@ import express from 'express'
 import { toyService } from './services/toy.service.js'
 import { loggerService } from './services/logger.service.js'
 
-const app=express()
+const app = express()
+app.use(express.json())
 
 
 
 ////////////////*Toys API*////////////////////////////////////
-app.get('/api/toy',(req,res)=>{
-    const { filterBy = {}, sortBy = {}} = req.query
-    toyService.query(filterBy,sortBy).then(
-        toys=>res.send(toys)).catch(
-            err=>{
-                loggerService.error('Cannot load toys',err)
+app.get('/api/toy', (req, res) => {
+    const { filterBy = {}, sortBy = {} } = req.query
+    toyService.query(filterBy, sortBy).then(
+        toys => res.send(toys)).catch(
+            err => {
+                loggerService.error('Cannot load toys', err)
                 res.status(400).send('Cannot load toys')
             }
         )
 
 })
-app.get('/api/toy/:toyId',(req,res)=>{
-    const {toyId}=req.params
+app.get('/api/toy/:toyId', (req, res) => {
+    const { toyId } = req.params
     toyService.getById(toyId).then(
-        toy=>res.send(toy)
-    ).catch(err=>{
-        loggerService.error('Cannot get toy',err)
+        toy => res.send(toy)
+    ).catch(err => {
+        loggerService.error('Cannot get toy', err)
         res.status(400).send(err)
     })
 })
-app.delete('/api/toy/:toyId',(req,res)=>{
-    const {toyId}=req.params
+app.delete('/api/toy/:toyId', (req, res) => {
+    const { toyId } = req.params
     toyService.remove(toyId).then(
-        ()=>res.send()
-    ).catch(err=>{
-        loggerService.error('Cannot delete toy',err)
-        res.status(400).send('Cannot delete toy'+err)
+        () => res.send()
+    ).catch(err => {
+        loggerService.error('Cannot delete toy', err)
+        res.status(400).send('Cannot delete toy' + err)
 
     })
-
- 
+})
+app.put('/api/toy', (req, res) => {
+    const { name, price, _id, inStock, imgUrl, labels } = req.body
+    const toy = {
+        name,
+        price,
+        _id,
+        inStock,
+        imgUrl,
+        labels
+    }
+    toyService.save(toy).then(savedToy => res.send(savedToy)).catch(err=>{
+        loggerService.error('Cannot edit toy', err)
+        res.status(400).send('Cannot edit toy' + err)
+    })
+    
 })
 
 
