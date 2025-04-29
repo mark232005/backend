@@ -56,6 +56,24 @@ app.put('/api/toy', (req, res) => {
     })
     
 })
+app.post('/api/toy',(req,res)=>{
+    const { name, price,inStock, imgUrl, labels } = req.body
+    const toy = {
+        name,
+        price,
+        inStock,
+        imgUrl,
+        labels
+    }
+
+toyService.save(toy)
+.then(toy=>res.send(toy))
+.catch(err=>{
+    loggerService.error('Cannot save toy', err)
+    res.status(400).send('Cannot save toy' + err)
+
+})
+})
 
 
 
