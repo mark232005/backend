@@ -29,6 +29,18 @@ app.get('/api/toy/:toyId',(req,res)=>{
         res.status(400).send(err)
     })
 })
+app.delete('/api/toy/:toyId',(req,res)=>{
+    const {toyId}=req.params
+    toyService.remove(toyId).then(
+        ()=>res.send()
+    ).catch(err=>{
+        loggerService.error('Cannot delete toy',err)
+        res.status(400).send('Cannot delete toy'+err)
+
+    })
+
+ 
+})
 
 
 

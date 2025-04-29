@@ -51,29 +51,28 @@ function query(filterBy = {}, sortBy = {}) {
 
 function getById(toyId) {
     const toy = toys.find(toy => toy._id === toyId)
-    if (!toy) Promise.reject('Toy not found')
+    if (!toy) return Promise.reject('Toy not found')
     return Promise.resolve(toy)
 }
 
 
 function remove(toyId) {
-    const idx = toys.findIdx(toy => toy._id = toyId)
+    const idx = toys.findIndex(toy => toy._id === toyId)
     if (idx === -1) return Promise.reject('No such toy')
     toys.splice(idx, 1)
-    _saveToysToFile()
+    return _saveToysToFile()
 }
-
 function save(toy) {
     if (toy._id) {
-        const idx=toys.findIdx(currToy=>toy._id===currToy._id)
-        toys[idx]={...toys[idx],toy}
+        const idx = toys.findIndex(currToy => toy._id === currToy._id)
+        toys[idx] = { ...toys[idx], toy }
     } else {
         toy._id = _makeId()
         toy.createdAt = Date.now()
         toy.inStock = true
         toys.unshift(toy)
     }
-    return  _saveToysToFile().then(() => toy)
+    return _saveToysToFile().then(() => toy)
 }
 
 function _makeId(length = 5) {
