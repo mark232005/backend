@@ -32,8 +32,12 @@ function query(filterBy = {}, sortBy = {}) {
         const regExp = new RegExp(filterBy.txt, 'i')
         toysToShow = toysToShow.filter(toy => regExp.test(toy.name))
     }
-    if (typeof filterBy.inStock === 'boolean') {
-        toysToShow = toysToShow.filter(toy => toy.inStock === filterBy.inStock)
+    if (filterBy.inStock === 'false') {
+        toysToShow = toysToShow.filter(toy => toy.inStock === false)
+    }
+    if (filterBy.inStock === 'true') {
+        toysToShow = toysToShow.filter(toy => toy.inStock === true)
+
     }
     if (sortBy.type === 'name') {
         toysToShow.sort((a, b) => {

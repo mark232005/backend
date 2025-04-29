@@ -3,15 +3,37 @@
 import express from 'express'
 import { toyService } from './services/toy.service.js'
 import { loggerService } from './services/logger.service.js'
+import cors from 'cors'
 
 const app = express()
 app.use(express.json())
+
+// app.use(cookieParser()) // for res.cookies
+// console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('public'))
+} else {
+    const corsOptions = {
+        origin: [
+            'http://127.0.0.1:3000',
+            'http://localhost:3000',
+            'http://localhost:5173',
+            'http://127.0.0.1:5173',
+            'http://localhost:5174',
+            'http://127.0.0.1:5174',
+        ],
+        credentials: true,
+    }
+    app.use(cors(corsOptions))
+}
 
 
 
 ////////////////*Toys API*////////////////////////////////////
 app.get('/api/toy', (req, res) => {
     const { filterBy = {}, sortBy = {} } = req.query
+    
     toyService.query(filterBy, sortBy).then(
         toys => res.send(toys)).catch(
             err => {

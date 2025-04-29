@@ -1,20 +1,20 @@
 [
     {
-        "name": "Spin Toy Light",
-        "price": "50.00",
         "_id": "4b2e01b0",
-        "inStock": true,
+        "name": "Spin Toy Light",
         "imgUrl": "https://superpharmstorage.blob.core.windows.net/hybris/products/desktop/medium/4897065258110.jpg",
         "labels": [
             "Baby",
             "Battery Powered"
-        ]
+        ],
+        "inStock": false,
+        "createdAt": "2024-12-01T10:15:00Z"
     },
     {
         "_id": "c3d53b22",
         "name": "RC Car",
         "imgUrl": "https://www.hashtagtoys.co.il/wp-content/uploads/2024/03/2311201705167.jpg",
-        "price": "40",
+        "price": "16.19",
         "labels": [
             "On wheels",
             "Battery Powered"
@@ -31,7 +31,7 @@
             "Doll",
             "Art"
         ],
-        "inStock": true,
+        "inStock": false,
         "createdAt": "2025-02-05T09:20:00Z"
     },
     {
