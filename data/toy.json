@@ -1,44 +1,9 @@
 [
     {
-        "_id": "4b2e01b0",
-        "name": "Spin Toy Light",
-        "imgUrl": "https://superpharmstorage.blob.core.windows.net/hybris/products/desktop/medium/4897065258110.jpg",
-        "labels": [
-            "Baby",
-            "Battery Powered"
-        ],
-        "inStock": false,
-        "createdAt": "2024-12-01T10:15:00Z"
-    },
-    {
-        "_id": "c3d53b22",
-        "name": "RC Car",
-        "imgUrl": "https://www.hashtagtoys.co.il/wp-content/uploads/2024/03/2311201705167.jpg",
-        "price": "16.19",
-        "labels": [
-            "On wheels",
-            "Battery Powered"
-        ],
-        "inStock": true,
-        "createdAt": "2025-01-12T14:30:00Z"
-    },
-    {
-        "_id": "9a67a2f1",
-        "name": "Barbie Set",
-        "imgUrl": "https://www.hashtagtoys.co.il/wp-content/uploads/2024/03/6947731035373.jpg",
-        "price": "40.51",
-        "labels": [
-            "Doll",
-            "Art"
-        ],
-        "inStock": false,
-        "createdAt": "2025-02-05T09:20:00Z"
-    },
-    {
         "_id": "3cf0b8ea",
         "name": "Meli 300pc",
         "imgUrl": "https://cdna.wobily.com/images/e836b504-11aa-411a-bbb1-c7a4ba3ef51c_500.png",
-        "price": "27.00",
+        "price": 73,
         "labels": [
             "Box game"
         ],
