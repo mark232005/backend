@@ -3,14 +3,16 @@
 import express from 'express'
 import { loggerService } from './services/logger.service.js'
 import cors from 'cors'
-// import { authRoutes } from './api/auth/auth.routes.js'
 import { toyRoutes } from './api/toy/toy.routes.js'
+import { authRoutes } from './api/auth/auth.routes.js'
+import cookieParser from 'cookie-parser'
 
 const app = express()
 app.use(express.json())
 
-// app.use(cookieParser()) // for res.cookies
-// console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
+app.use(cookieParser()) // for res.cookies
+app.set('query parser', 'extended') // for req.query
+
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('public'))
@@ -39,5 +41,5 @@ app.listen(port, () => {
 
 
 //routes
-// app.use('/api/auth',authRoutes)
 app.use('/api/toy',toyRoutes)
+app.use('/api/auth',authRoutes)

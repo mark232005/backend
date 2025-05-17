@@ -6,7 +6,6 @@ import { toyService } from "./toy.service.js"
 export async function getToys(req, res) {
     try {
         const flat={...req.query.filterBy,...req.query.sortBy}
-        console.log(flat);
         const { txt, inStock, type, fetchAll = false ,desc} =flat
         const filterBy = {
             txt: txt || '',
@@ -17,10 +16,6 @@ export async function getToys(req, res) {
                 desc: +desc || 1
             }
         }
-        console.log(filterBy);
-
-
-
         const toys = await toyService.query(filterBy)
         res.send(toys)
 
