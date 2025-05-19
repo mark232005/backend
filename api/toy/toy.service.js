@@ -1,6 +1,7 @@
 import { dbService } from "../../services/db.service.js"
 import { loggerService } from "../../services/logger.service.js"
 import { ObjectId } from 'mongodb'
+import { utilService } from "../../services/util.service.js"
 
 
 export const toyService = {
@@ -9,7 +10,8 @@ export const toyService = {
     getById,
     remove,
     update,
-    save
+    save,
+    saveMsg
 }
 
 
@@ -18,12 +20,12 @@ async function query(filterBy = {}) {
         const { filterCriteria, sortCriteria } = _buildCriteria(filterBy)
         const collection = await dbService.getCollection('toys')
         const filteredToys =
-        await collection
-        .find(filterCriteria)
-        .collation({ 'locale': 'en' })
-        .sort(sortCriteria)
-        .toArray()
-        return filteredToys 
+            await collection
+                .find(filterCriteria)
+                .collation({ 'locale': 'en' })
+                .sort(sortCriteria)
+                .toArray()
+        return filteredToys
     }
     catch (err) {
         loggerService.error('cannot find toys', err)
@@ -33,9 +35,9 @@ async function query(filterBy = {}) {
 async function getById(toyId) {
     try {
         const collection = await dbService.getCollection('toys')
-        const toy =  await collection.findOne({ _id: ObjectId.createFromHexString(toyId) })
+        const toy = await collection.findOne({ _id: ObjectId.createFromHexString(toyId) })
         return toy
-        
+
     } catch (err) {
         loggerService.error('cannot get toy', err)
         throw err
@@ -49,11 +51,10 @@ async function remove(toyId) {
     } catch (err) {
         loggerService.error('cannot remove toy', err)
         throw err
-        
+
     }
 }
 async function update(toy) {
-    console.log(toy);
     const { name, labels, price, inStock } = toy
     const toyToUpdate = {
         name,
@@ -61,33 +62,50 @@ async function update(toy) {
         labels,
         inStock
     }
-    
+
     try {
         const collection = await dbService.getCollection('toys')
         await collection.updateOne(
             { _id: ObjectId.createFromHexString(toy._id) },
             { $set: toyToUpdate }
         )
-        
+
     } catch (err) {
         loggerService.error('cannot update toy', err)
         throw err
-        
+
     }
 }
-async function save(toy){
-    try{
-        toy.inStock=true
+async function save(toy) {
+    try {
+        toy.inStock = true
         toy.createdAt = Date.now()
         const collection = await dbService.getCollection('toys')
         await collection.insertOne(toy)
         return toy
-    }catch(err){
+    } catch (err) {
         loggerService.error('cannot add toy', err)
         throw err
-        
+
     }
+
+}
+
+async function saveMsg(toyId, msg) {
     
+    try {
+        msg.id = utilService.makeId()
+        const collection = await dbService.getCollection('toys')
+        await await collection.updateOne(
+            { _id: ObjectId.createFromHexString(toyId) },
+            {
+                $push: { msgs: msg },
+            }
+        )
+    } catch (err) {
+        loggerService.error('cannot add msg', err)
+        throw err
+    }
 }
 
 
@@ -107,7 +125,7 @@ function _buildCriteria(filterBy) {
     }
     const sortCriteria = {}
     const sortBy = filterBy.sortBy
-    console.log('sortBy',sortBy);
+    console.log('sortBy', sortBy);
     if (sortBy.type) {
         const sortDirection = +sortBy.desc
         sortCriteria[sortBy.type] = sortDirection

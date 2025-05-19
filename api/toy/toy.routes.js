@@ -1,12 +1,15 @@
 import express from 'express'
-import { addToy, getToy, getToys, removeToy, updateToy } from './toy.controller.js'
+import { addMsg, addToy, getToy, getToys, removeToy, updateToy } from './toy.controller.js'
+import { requireAuth, requireAdmin } from '../../middlewares/requireAuth.middleware.js'
+import { log } from '../../middlewares/logger.middleware.js'
 
 
-export const toyRoutes=express.Router()
+export const toyRoutes = express.Router()
 
 
-toyRoutes.get('/',getToys)
-toyRoutes.get('/:id',getToy)
-toyRoutes.delete('/:id',removeToy)
-toyRoutes.put('/:id',updateToy)
-toyRoutes.post('/',addToy)
+toyRoutes.get('/', log, getToys)
+toyRoutes.get('/:id', getToy)
+toyRoutes.delete('/:id', requireAuth, requireAdmin, removeToy)
+toyRoutes.put('/:id', requireAuth, requireAdmin, updateToy)
+toyRoutes.post('/', requireAuth, requireAdmin, addToy)
+toyRoutes.post('/:id/msg', requireAuth, addMsg)

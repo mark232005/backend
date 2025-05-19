@@ -1,4 +1,6 @@
+import { log } from "../../middlewares/logger.middleware.js"
 import { loggerService } from "../../services/logger.service.js"
+import { utilService } from "../../services/util.service.js"
 import { toyService } from "./toy.service.js"
 
 
@@ -56,7 +58,6 @@ export async function removeToy(req, res) {
 
 export async function updateToy(req, res) {
     const { body: toy } = req
-    console.log(toy);
     try {
 
         const updateToy = await toyService.update(toy)
@@ -78,4 +79,29 @@ export async function addToy(req,res){
         res.status(500).send('Cannot save toy,' + err)
 
     }
+}
+
+export async function addMsg(req,res){
+    try{
+        const{loggedinUser}=req
+        const { txt } = req.body
+        const {id}=req.params
+        const msg = {
+            id:utilService.makeId(),
+            txt,
+            timestamp: Date.now(),
+            by:{
+                _id:loggedinUser._id,
+                fullname:loggedinUser.fullname
+
+            }
+        }
+        const addMsg= await toyService.saveMsg(id,msg)
+        res.send(addMsg)
+    }catch(err){
+        loggerService.error('Cannot save msg', err)
+        res.status(500).send('Cannot save msg,' + err)
+
+    }
+
 }
