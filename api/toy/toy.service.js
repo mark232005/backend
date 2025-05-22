@@ -96,12 +96,14 @@ async function saveMsg(toyId, msg) {
     try {
         msg.id = utilService.makeId()
         const collection = await dbService.getCollection('toys')
-        await await collection.updateOne(
+        await collection.updateOne(
             { _id: ObjectId.createFromHexString(toyId) },
             {
                 $push: { msgs: msg },
             }
-        )
+            
+        ) 
+        return msg
     } catch (err) {
         loggerService.error('cannot add msg', err)
         throw err

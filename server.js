@@ -6,6 +6,7 @@ import cors from 'cors'
 import { toyRoutes } from './api/toy/toy.routes.js'
 import { authRoutes } from './api/auth/auth.routes.js'
 import cookieParser from 'cookie-parser'
+import { reviewRoutes } from './api/review/review.routes.js'
 
 const app = express()
 app.use(express.json())
@@ -43,3 +44,4 @@ app.listen(port, () => {
 //routes
 app.use('/api/toy',toyRoutes)
 app.use('/api/auth',authRoutes)
+app.use('/api/review',reviewRoutes)
